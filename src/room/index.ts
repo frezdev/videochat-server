@@ -32,16 +32,19 @@ export const roomHandler = (socket: Socket) => {
   }
 
   const leaveRoom = ({ peerId, roomId }: IRoomParams) => {
-    rooms[roomId] = rooms[roomId].filter(id => id !== peerId)
-    socket.leave(roomId)
-    socket.to(roomId).emit('user-disconnected', { peerId })
+    if (rooms[roomId]) {
+      rooms[roomId] = rooms[roomId].filter(id => id !== peerId)
+      socket.leave(roomId)
+      socket.to(roomId).emit('user-disconnected', { peerId })
+    }
   }
 
   const closeRoom = ({ roomId }: { roomId: string }) => {
     delete rooms[roomId]
+    socket.emit("room-closed", { roomId })
   }
 
   socket.on('create-room', createRoom)
   socket.on('join-room', joinGroup)
-  socket.on('close-session', closeRoom)
+  socket.on('close-room', closeRoom)
 }

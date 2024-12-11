@@ -8,8 +8,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "prestart": "yarn build",
-    "start": "nodemon .",
-    "dev": "concurrently --kill-others \"yarn watch\" \"yarn start\""
+    "start:dev": "nodemon .",
+    "start": "node dist/index.js",
+    "dev": "concurrently --kill-others \"yarn watch\" \"yarn start:dev\""
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

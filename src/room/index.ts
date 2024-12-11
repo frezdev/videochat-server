@@ -37,6 +37,11 @@ export const roomHandler = (socket: Socket) => {
     socket.to(roomId).emit('user-disconnected', { peerId })
   }
 
+  const closeRoom = ({ roomId }: { roomId: string }) => {
+    delete rooms[roomId]
+  }
+
   socket.on('create-room', createRoom)
   socket.on('join-room', joinGroup)
+  socket.on('close-session', closeRoom)
 }

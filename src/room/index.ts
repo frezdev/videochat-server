@@ -24,7 +24,6 @@ export const roomHandler = (socket: Socket) => {
       });
 
       socket.on("disconnect", () => {
-        console.log({ roomId, peerId })
         console.log("user left the room", peerId);
         leaveRoom({ roomId, peerId });
       });
@@ -41,7 +40,7 @@ export const roomHandler = (socket: Socket) => {
 
   const closeRoom = ({ roomId }: { roomId: string }) => {
     delete rooms[roomId]
-    socket.emit("room-closed", { roomId })
+    socket.to(roomId).emit("room-closed", { roomId })
   }
 
   socket.on('create-room', createRoom)

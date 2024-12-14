@@ -43,7 +43,17 @@ export const roomHandler = (socket: Socket) => {
     socket.to(roomId).emit("room-closed", { roomId })
   }
 
+  const uptateUserConfig = ({ peerId, roomId, audio, video }: {
+    peerId: string,
+    roomId: string,
+    audio: boolean,
+    video: boolean
+  }) => {
+    socket.to(roomId).emit('user-config-updated', { peerId, audio, video })
+  }
+
   socket.on('create-room', createRoom)
   socket.on('join-room', joinGroup)
   socket.on('close-room', closeRoom)
+  socket.on('update-user-config', uptateUserConfig)
 }
